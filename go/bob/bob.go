@@ -7,24 +7,29 @@ import (
 
 const testVersion = 2
 
-const question, yell, empty, def = "Sure.", "Whoa, chill out!", "Fine. Be that way!", "Whatever."
+var question, yell, empty, def = "Sure.", "Whoa, chill out!", "Fine. Be that way!", "Whatever."
 
 func Hey(message string) string {
-	if len(message) == 0 || len(strings.TrimSpace(message)) == 0 {
+	if strings.TrimSpace(message) == "" {
 		return empty
 	}
 
+	var let, upcase = false, true
 	for _, r := range message {
 		if unicode.IsLetter(r) {
-			if strings.ToUpper(message) == message {
-				return yell
-			} else {
+			let = true
+			if !unicode.IsUpper(r) {
+				upcase = false
 				break
 			}
 		}
 	}
 
-	if message[len(message)-1] == '?' {
+	if let && upcase {
+		return yell
+	}
+
+	if strings.HasSuffix(message, "?") {
 		return question
 	}
 
